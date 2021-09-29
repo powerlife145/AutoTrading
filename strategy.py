@@ -19,4 +19,4 @@ class strategy:
         con = self.conditions[name]
         # buy_list = con.search_buy()
         # sell_list = con.search_sell()
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        print(name)

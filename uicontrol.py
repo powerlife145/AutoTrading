@@ -130,9 +130,11 @@ class uicontrol():
             self.context.pushButton_4.setText("자동 매매 중지")
 
             con_name = self.context.comboBox_4.currentText()
+            self.context.comboBox_4.setEnabled(False)
             self.context.textEdit.setText(f'{con_name}을 사용하여 현재 자동 매매 중입니다.\n자동매매 주기는 {str(AUTO_TRADE_TERM)}초 입니다.')
 
         else:
             self.context.lineEdit_5.setText("")
             self.context.lineEdit_5.setStyleSheet("")
             self.context.pushButton_4.setText("자동 매매 시작")
+            self.context.comboBox_4.setEnabled(True)
