@@ -3,6 +3,7 @@ import time
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtCore import *
 
+AUTO_TRADE_TERM = 1 #자동 매매 시도 간격, 초 단위
 class uicontrol():
     def __init__(self, context):
         self.context = context
@@ -20,6 +21,9 @@ class uicontrol():
         context.lineEdit_4.returnPressed.connect(self.filter_codes)
         context.listWidget.itemClicked.connect(self.select_code)
         context.tableWidget_2.cellClicked.connect(self.select_code2)
+
+        context.pushButton_4.clicked.connect(self.control_auto_trade)
+        context.uitimer.add_timer(AUTO_TRADE_TERM, self.auto_trade) #자동 매매 타이머
 
         self.searched_code_list = {}
         self.searched_name_list = {}
@@ -113,3 +117,22 @@ class uicontrol():
                 self.context.tableWidget_2.setItem(j, i, item)
 
         self.context.tableWidget_2.resizeRowsToContents()
+
+    def auto_trade(self):
+        if self.context.lineEdit_5.text() != "":
+            con_name = self.context.comboBox_4.currentText()
+            self.context.strategy.trade_by_condition(con_name)
+
+    def control_auto_trade(self):
+        if self.context.lineEdit_5.text() == "":
+            self.context.lineEdit_5.setText(" 자동 매매 중...")
+            self.context.lineEdit_5.setStyleSheet("color: red;background-color:rgb(255, 255, 127);")
+            self.context.pushButton_4.setText("자동 매매 중지")
+
+            con_name = self.context.comboBox_4.currentText()
+            self.context.textEdit.setText(f'{con_name}을 사용하여 현재 자동 매매 중입니다.\n자동매매 주기는 {str(AUTO_TRADE_TERM)}초 입니다.')
+
+        else:
+            self.context.lineEdit_5.setText("")
+            self.context.lineEdit_5.setStyleSheet("")
+            self.context.pushButton_4.setText("자동 매매 시작")

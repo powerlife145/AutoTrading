@@ -14,6 +14,8 @@ from uitimer import *
 from uicontrol import *
 from pychart import *
 from webreader import *
+from strategy import *
+
 form_class = uic.loadUiType("pytrader.ui")[0]
 
 
@@ -24,10 +26,12 @@ class MyWindow(QMainWindow, form_class):
         self.kiwoom = Kiwoom()
         self.kiwoom.comm_connect()
         self.uitimer = uitimer(self)
-        self.uicontrol = uicontrol(self)
+        self.uicontrol = uicontrol(self) # 타이머를 사용하므로 타이머 보다 나중에 실행되야 함.
+
+        # 아래 클래스들은 UI를 사용하므로 uicontrol보다 나중에 실행되어야 함.
         self.pychart = pychart(self)
         self.webreader = webreader(self)
-
+        self.strategy = strategy(self)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
